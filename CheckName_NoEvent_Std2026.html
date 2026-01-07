@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student Name in Blockchain Class</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Name in Blockchain Class</h1>
+        <label class="col-lg-2 control-label">
+        Name Registration</label>
+        <input id="document1" type="text">
+        <button id="btnRegistration">Registration</button>
+                
+        <label class="col-lg-2 control-label">
+        Check Student Name</label>
+        <input id="document2" type="text">
+        <button id="btnCheck">Check</button> 
+               
+        <label class="col-lg-2 control-label">Status</label>
+        <h2 id="result"></h2>
+        Status: <span id="status">Loading...</span>
+    </div>
+
+    <script type="module">
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.min.js";
+
+        let signer = null;
+        let provider, contract;
+        let currentAccount = null;
+        const contractAddress = ;
+
+        let abi = 
+
+        // ===Connecting to MetaMask===
+        async function loadWeb3() {
+            if (window.ethereum) {
+                try{
+                    // MetaMask is installed (Browser-injected Provider)
+
+
+                    // To request user's account from Metamask
+
+
+                } catch (error) {
+                    // If this happens, the user rejected the connection request.
+                    if (err.code === 4001) {
+                        console.log('Please connect to MetaMask.');
+                    } else {
+                        console.error(err);
+                    }
+                }
+            } else {
+                console.log('MetaMask is not installed!');
+            }
+        }
+         
+        // If the array of accounts is non-empty, you're already connected.
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', handleAccountsChanged);
+        }
+
+        // For now, 'eth_accounts' will continue to always return an array
+        async function handleAccountsChanged(accounts) {
+            if (accounts.length === 0) {
+                // MetaMask is locked or the user has not connected any accounts
+                console.log('Please connect to MetaMask.');
+
+            } else if (accounts[0] !== currentAccount) {
+                currentAccount = accounts[0];
+                // Get the Signer
+
+
+            }
+        }
+
+        async function load() {
+            await loadWeb3();
+            contract = await loadContract();
+            updateStatus('Ready!');
+        }
+
+        async function loadContract() {
+            //Contract Object with Signer
+
+
+        }
+        
+        function updateStatus(status) {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = status;
+            console.log(status);
+        }
+
+        $("#btnRegistration").click(async function() {
+            console.log("Current Account:", currentAccount);
+            try {
+                const docValue = $("#document1").val();
+                // Registration transaction call
+                
+  
+                console.log("Tx Hash:", result.hash);
+                $("#result").html("Transaction Sent: " + result.hash);
+
+            } catch (error) {
+                console.error("Registration Error:", error);
+                $("#result").html("Error: " + error.message);
+            }
+        });
+
+        $("#btnCheck").click(async function() {
+            try {
+                const docValue = $("#document2").val();
+                // Check Name transaction call
+
+
+                $("#result").html(result.toString());
+                
+            } catch (error) {
+                console.error("Check Error:", error);
+                $("#result").html("Error checking name");
+            }
+        });
+
+        load();
+    </script>
+</body>
+</html>
