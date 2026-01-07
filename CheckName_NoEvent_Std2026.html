@@ -29,19 +29,53 @@
         let signer = null;
         let provider, contract;
         let currentAccount = null;
-        const contractAddress = ;
+        const contractAddress = '0x3aB7aC03860a796Cb75ab4fA15589b7cD5b35670';
 
-        let abi = 
+        let abi = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    }
+                ],
+                "name": "registration",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    }
+                ],
+                "name": "checkName",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]
 
         // ===Connecting to MetaMask===
         async function loadWeb3() {
             if (window.ethereum) {
                 try{
                     // MetaMask is installed (Browser-injected Provider)
-
+                    provider = new ethers.BrowserProvider(window.ethereum);
+                    const accounts = await provider.send("eth_requestAccounts", []);
 
                     // To request user's account from Metamask
-
+                    await handleAccountsChanged(accounts);
 
                 } catch (error) {
                     // If this happens, the user rejected the connection request.
@@ -68,8 +102,11 @@
                 console.log('Please connect to MetaMask.');
 
             } else if (accounts[0] !== currentAccount) {
-                currentAccount = accounts[0];
+                currentAccount = accounts[0];  //account แรกที่เลือกใน metamask
                 // Get the Signer
+
+                signer = await provider.getSigner(); //provider ที
+                console.log("Signer address:", await signer.getAddress()); //ถ้าใช้เงิน ให้ใช้ signer เพื่อเซ็นต์ทรานแซคชัน
 
 
             }
@@ -83,7 +120,7 @@
 
         async function loadContract() {
             //Contract Object with Signer
-
+            return new ethers.Contract(contractAddress, abi, signer);
 
         }
         
@@ -98,8 +135,9 @@
             try {
                 const docValue = $("#document1").val();
                 // Registration transaction call
-                
-  
+                const result = await contract.registration(docValue);
+                // await result.wait();
+
                 console.log("Tx Hash:", result.hash);
                 $("#result").html("Transaction Sent: " + result.hash);
 
@@ -113,7 +151,7 @@
             try {
                 const docValue = $("#document2").val();
                 // Check Name transaction call
-
+                const result = await contract.checkName(docValue);
 
                 $("#result").html(result.toString());
                 
