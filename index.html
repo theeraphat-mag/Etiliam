@@ -1,127 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ROV Character Market - Pro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROV Market - Realtime Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-glow: #00f2ff;
-            --secondary-glow: #d044ff;
-            --bg-dark: #121218;
-            --text-main: #EAEAEA;
-            --font-title: 'Cinzel', serif;
+            --primary: #00f2ff;
+            --secondary: #d044ff;
+            --gold: #ffd700;
+            --bg-dark: #0f1014;
+            --card-bg: rgba(20, 24, 35, 0.85);
+            --font-head: 'Cinzel', serif;
             --font-body: 'Roboto', sans-serif;
         }
-        body { 
-            font-family: var(--font-body); margin: 0;
-            background-image: url('image/Map Rov 4_0.jpeg');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: var(--text-main); min-height: 100vh; position: relative;
-        }
-        body::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(18, 18, 24, 0.9); z-index: -1;
-        }
-        .container { max-width: 1200px; margin: auto; padding: 2em; }
-        h1, h2 { font-family: var(--font-title); text-align: center; letter-spacing: 3px; }
-        h1 { font-size: 3em; text-shadow: 0 0 10px var(--primary-glow); margin-bottom: 0.5em; }
-        .center-h2 { width: 100%; text-align: center; }
-        #status { font-weight: bold; text-align:center; display:block; margin-bottom: 2em; color: var(--primary-glow); font-size: 1.2em;}
-        
-        .category-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 40px; }
-        .cat-btn {
-            background: rgba(0, 0, 0, 0.6); border: 1px solid var(--primary-glow);
-            color: var(--text-main); padding: 10px 25px; border-radius: 30px;
-            cursor: pointer; font-family: var(--font-title); text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-        .cat-btn:hover { background: rgba(0, 242, 255, 0.2); transform: translateY(-2px); }
-        .cat-btn.active { background: var(--primary-glow); color: #000; font-weight: bold; }
-        .cat-btn.my-collection { border-color: #ffd700; color: #ffd700; }
-        .cat-btn.my-collection.active { background: #ffd700; color: #000; }
 
-        .card-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('image/Map Rov 4_0.jpeg');
+            background-size: cover; background-attachment: fixed; background-position: center;
+            color: white; margin: 0; min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        h1 {
+            font-family: var(--font-head); font-size: 3.5em; text-align: center;
+            text-shadow: 0 0 15px var(--primary); margin-bottom: 10px;
+        }
+        #status {
+            text-align: center; color: var(--primary); font-weight: bold; font-size: 1.2em;
+            margin-bottom: 30px; text-shadow: 0 0 5px rgba(0, 242, 255, 0.5);
+            background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; width: fit-content; margin: 0 auto 30px auto;
+        }
+
+        .nav-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 40px; }
+        .filter-btn {
+            background: rgba(0,0,0,0.6); border: 1px solid var(--primary); color: white;
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; text-transform: uppercase;
+            font-family: var(--font-head); transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary); color: black; box-shadow: 0 0 15px var(--primary);
+        }
+        .filter-btn.my-items { border-color: var(--gold); color: var(--gold); }
+        .filter-btn.my-items.active { background: var(--gold); color: black; box-shadow: 0 0 15px var(--gold); }
+
+        .market-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px;
+        }
+
         .card {
-            background: rgba(20, 20, 30, 0.6); border: 1px solid rgba(0, 195, 255, 0.3);
-            border-radius: 12px; text-align: center; backdrop-filter: blur(10px);
-            transition: all 0.3s ease; overflow: hidden; display: flex; flex-direction: column;
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; overflow: hidden; transition: 0.3s;
+            position: relative; display: flex; flex-direction: column;
+            backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-10px); border-color: rgba(0, 195, 255, 0.8); }
-        .card.tier-legendary { border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-        
-        .card .img-container { width: 100%; height: 280px; overflow: hidden; position: relative; }
-        .card .type-badge {
-            position: absolute; top: 10px; right: 10px; background: rgba(0, 0, 0, 0.8);
-            color: var(--primary-glow); padding: 4px 8px; border-radius: 4px; font-weight: bold; z-index: 2;
-        }
-        .card .price-badge {
-            position: absolute; bottom: 10px; left: 10px; background: rgba(0, 0, 0, 0.9);
-            color: #ffd700; padding: 4px 8px; border-radius: 4px; font-weight: bold; border: 1px solid #ffd700; z-index: 2;
-        }
-        .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card.legendary { border-color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+
+        .card-img-box { height: 280px; width: 100%; position: relative; overflow: visible; }
+        .card-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .card:hover img { transform: scale(1.1); }
-        
-        .card-content { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card h3 { margin: 10px 0; font-family: var(--font-title); font-size: 1.3em; }
 
-        .buy-btn {
-            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
-            color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer;
-            width: 100%; font-weight: bold; text-transform: uppercase; margin-top: 10px;
+        .badge-role {
+            position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8);
+            padding: 4px 8px; border-radius: 4px; font-size: 0.8em; color: var(--primary);
+            z-index: 10;
         }
-        .buy-btn:hover { transform: scale(1.02); }
-        .buy-btn.sold { background: #333; color: #ff4d4d; cursor: not-allowed; border: 1px solid #555; }
-        .buy-btn.owned { background: #28a745; color: white; cursor: default; }
+        .badge-price {
+            position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.9);
+            padding: 4px 8px; border-radius: 4px; font-weight: bold; color: var(--gold); border: 1px solid var(--gold);
+            z-index: 10;
+        }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(0,0,0,0.5); border-radius: 8px; overflow: hidden; }
-        th, td { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px; text-align: left; }
-        th { background: rgba(0, 195, 255, 0.15); color: var(--primary-glow); }
-        td:nth-child(3) { font-family: monospace; color: #aaa; }
+        .card-body { padding: 15px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card h3 { margin: 10px 0; font-family: var(--font-head); font-size: 1.4em; }
+
+        .btn-action {
+            width: 100%; padding: 12px; border: none; border-radius: 6px;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 10px;
+            transition: 0.3s; font-family: var(--font-head); letter-spacing: 1px;
+        }
+        .btn-buy { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; }
+        .btn-buy:hover { box-shadow: 0 0 15px var(--secondary); transform: scale(1.02); }
+        .btn-sold { background: #333; color: #ff5555; cursor: not-allowed; border: 1px solid #555; }
+        .btn-owned { background: #28a745; color: white; cursor: default; border: 1px solid #28a745; }
+
+        .history-section { margin-top: 60px; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; }
+        h2 { text-align: center; font-family: var(--font-head); margin-bottom: 20px; color: var(--primary); }
+        table {
+            width: 100%; border-collapse: collapse; 
+            border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+        }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background: rgba(0, 242, 255, 0.1); color: var(--primary); font-family: var(--font-head); }
+        td { color: #ddd; }
+        .my-tx { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>ROV Character Market</h1>
-        <p id="status">Connecting to MetaMask...</p>
+        <p id="status">🔵 Connecting to Blockchain...</p>
 
-        <div class="category-nav">
-            <button class="cat-btn active" onclick="filterMarket('All')">All Roles</button>
-            <button class="cat-btn" onclick="filterMarket('Assassin')">Assassin</button>
-            <button class="cat-btn" onclick="filterMarket('Carry')">Carry</button>
-            <button class="cat-btn" onclick="filterMarket('Fighter')">Fighter</button>
-            <button class="cat-btn" onclick="filterMarket('Mage')">Mage</button>
-            <button class="cat-btn" onclick="filterMarket('Tank')">Tank</button>
-            <button class="cat-btn my-collection" onclick="filterMarket('MyCollection')">⭐ My Collection</button>
+        <div class="nav-filters">
+            <button class="filter-btn active" onclick="filterItems('All', this)">All</button>
+            <button class="filter-btn" onclick="filterItems('Assassin', this)">Assassin</button>
+            <button class="filter-btn" onclick="filterItems('Carry', this)">Carry</button>
+            <button class="filter-btn" onclick="filterItems('Fighter', this)">Fighter</button>
+            <button class="filter-btn" onclick="filterItems('Mage', this)">Mage</button>
+            <button class="filter-btn" onclick="filterItems('Tank', this)">Tank</button>
+            <button class="filter-btn my-items" onclick="filterItems('MyItems', this)">⭐ My Collection</button>
         </div>
 
-        <div id="market" class="card-container"></div>
+        <div id="marketGrid" class="market-grid"></div>
 
-        <div class="center-h2"><h2>Latest Transactions</h2></div>
-        <table id="historyTable">
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Character</th>
-                    <th>Price (ETH)</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="history-section">
+            <h2>Latest Transactions</h2>
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Character</th>
+                        <th>Price (ETH)</th>
+                        <th>Buyer / Owner</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
     <script type="module">
-        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.min.js";
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.min.js";
 
-        // ============================================================
-        // 1. UPDATE THIS ADDRESS AFTER DEPLOYING THE NEW CONTRACT !!!
-        // ============================================================
-        const contractAddress = '0x49BE98FaF884f88b55dD42483527029192a77353'; 
-
-        // 2. THIS IS THE NEW ABI FOR THE NEW CONTRACT
-        const contractABI = [
+        // ==========================================
+        // ⚙️ CONFIGURATION 
+        // ==========================================
+        const CONTRACT_ADDRESS = "0xF7dfA782db2F04cf38FfEF1e9427f6f0D9457490"; 
+        
+        const ABI = [
 	{
 		"inputs": [
 			{
@@ -144,7 +168,7 @@
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
+				"indexed": true,
 				"internalType": "address",
 				"name": "from",
 				"type": "address"
@@ -172,6 +196,50 @@
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "characterName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "PriceUpdated",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "setPrice",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -185,6 +253,19 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DEFAULT_PRICE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -239,6 +320,25 @@
 				"internalType": "struct RovMarket.Purchase[]",
 				"name": "",
 				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "isCharacterSold",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -311,182 +411,213 @@
 		"type": "function"
 	}
 ];
-        // Data Setup
-        const categoryData = {
-            "Assassin": ["Butterfly.jpeg", "Kriknak.jpeg", "Murad.jpeg", "Tachi.jpeg", "The Flash.jpeg", "Wukong.jpeg", "Zill.jpeg", "Zuka.jpeg"],
-            "Carry": ["Hayate.jpeg", "Joker.jpeg", "Lindis.jpeg", "Tel'Annas.jpeg", "Valhein.jpeg", "Yorn.jpeg"],
-            "Fighter": ["Airi.jpeg", "Errol.jpeg", "Riktor.jpeg", "Ryoma.jpeg", "Superman.jpeg"],
-            "Mage": ["Aleister (Remake).jpeg", "Kahlii.jpeg", "Raz.jpeg", "Tulen.jpeg", "Veera.jpeg", "Zata.jpeg"],
-            "Tank": ["Maloch.jpeg", "Ormarr.jpeg", "Xeniel.jpeg"]
-        };
 
-        const rareList = ["Hayate.jpeg", "Yorn.jpeg", "Wukong.jpeg"]; // 0.01
-        const uncommonList = ["Murad.jpeg", "Nakroth.jpeg", "Florentino.jpeg"]; // 0.005
-
-        let allCharacters = [];
-
-        // Prepare Data Object
-        for (const [category, files] of Object.entries(categoryData)) {
-            files.forEach(filename => {
-                let cleanName = filename.replace(/\.(jpeg|jpg|png|webp)$/i, '').replace(/_/g, ' ').replace(/\(.*\)/, '').trim();
-                let price = 0.001;
-                let tier = "common";
-                if(rareList.includes(filename)) { price = 0.01; tier = "legendary"; }
-                else if(uncommonList.includes(filename)) { price = 0.005; tier = "rare"; }
-
-                allCharacters.push({
-                    name: cleanName,
-                    id: filename, 
-                    category: category,
-                    img: `image/${category}/${filename}`,
-                    price: price,
-                    tier: tier,
-                    owner: null
-                });
-            });
-        }
+        const DATABASE = [
+            { name: "Murad", file: "Murad.jpeg", role: "Assassin" },
+            { name: "Wukong", file: "Wukong.jpeg", role: "Assassin" },
+            { name: "Nakroth", file: "Nakroth.jpeg", role: "Assassin" },
+            { name: "Butterfly", file: "Butterfly.jpeg", role: "Assassin" },
+            { name: "Yorn", file: "Yorn.jpeg", role: "Carry" },
+            { name: "Hayate", file: "Hayate.jpeg", role: "Carry" },
+            { name: "Tel'Annas", file: "Tel'Annas.jpeg", role: "Carry" },
+            { name: "Valhein", file: "Valhein.jpeg", role: "Carry" },
+            { name: "Florentino", file: "Florentino.jpeg", role: "Fighter" },
+            { name: "Riktor", file: "Riktor.jpeg", role: "Fighter" },
+            { name: "Superman", file: "Superman.jpeg", role: "Fighter" },
+            { name: "Raz", file: "Raz.jpeg", role: "Mage" },
+            { name: "Tulen", file: "Tulen.jpeg", role: "Mage" },
+            { name: "Maloch", file: "Maloch.jpeg", role: "Tank" }
+        ];
 
         let provider, signer, contract, userAddress;
-
-        window.filterMarket = function(filterType) {
-            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            let filtered = [];
-            if (filterType === 'All') {
-                filtered = [...allCharacters].sort((a, b) => b.price - a.price);
-            } else if (filterType === 'MyCollection') {
-                filtered = allCharacters.filter(c => c.owner && c.owner.toLowerCase() === userAddress.toLowerCase());
-                if(filtered.length === 0) updateStatus("You don't own any cards yet.");
-            } else {
-                filtered = allCharacters.filter(c => c.category === filterType);
-            }
-            renderMarket(filtered);
-        }
+        let marketItems = []; 
+        let currentCategory = 'All'; 
 
         async function init() {
             if (typeof window.ethereum === 'undefined') {
-                updateStatus("MetaMask is not installed!"); return;
+                updateStatus("❌ MetaMask is not installed!"); 
+                return;
             }
             try {
                 provider = new ethers.BrowserProvider(window.ethereum);
                 signer = await provider.getSigner();
                 userAddress = await signer.getAddress();
                 
-                // Initialize Contract
-                contract = new ethers.Contract(contractAddress, contractABI, signer);
+                if(!ethers.isAddress(CONTRACT_ADDRESS)) throw new Error("Invalid Contract Address");
+
+                contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
                 
                 console.log(`Connected: ${userAddress}`);
-                updateStatus("Syncing with Blockchain...");
+                updateStatus("🔄 Syncing Data..."); 
 
-                await syncOwnership();
-                listenForEvents();
-                loadHistory();
+                await loadMarketData(); 
+                listenToEvents(); 
+                startAutoRefresh(); // ✅ เริ่มระบบ Auto Sync
                 
-                updateStatus("Ready");
-                filterMarket('All'); 
+                updateStatus("✅ Market Ready");
+                filterItems('All', null);   
+
+                // ✅ เพิ่ม: ตรวจจับการเปลี่ยน Account ใน MetaMask
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    window.location.reload(); // รีเฟรชหน้าเว็บทันทีเมื่อสลับ ID
+                });
 
             } catch (error) {
                 console.error("Init Error:", error);
-                updateStatus("Connection Failed. Check Contract Address & Console.");
+                let msg = error.message;
+                if(error.code === 'CALL_EXCEPTION') msg = "Contract Not Found (Check Network/Address)";
+                updateStatus(`❌ Error: ${msg}`); 
+                alert(`Connection Failed:\n${msg}`);
             }
         }
 
-        async function syncOwnership() {
-            try {
-                const history = await contract.getPurchaseHistory();
-                allCharacters.forEach(c => c.owner = null); // Reset
-                history.forEach(tx => {
-                    const char = allCharacters.find(c => c.id === tx.characterName);
-                    if (char) char.owner = tx.owner;
-                });
-            } catch (e) { console.error("Sync Error:", e); }
+        async function loadMarketData() {
+            const history = await contract.getPurchaseHistory();
+            
+            marketItems = DATABASE.map(item => {
+                // ค้นหาประวัติการซื้อ (ถ้ามี)
+                const soldLog = history.find(h => h.characterName === item.file);
+                
+                let displayPrice = 0.001;
+                if(["Hayate.jpeg", "Yorn.jpeg", "Wukong.jpeg"].includes(item.file)) displayPrice = 0.01;
+                else if(["Murad.jpeg", "Nakroth.jpeg", "Florentino.jpeg"].includes(item.file)) displayPrice = 0.005;
+
+                return {
+                    ...item,
+                    price: soldLog ? ethers.formatEther(soldLog.price) : displayPrice,
+                    owner: soldLog ? soldLog.owner : null,
+                    isSold: !!soldLog,
+                    tier: displayPrice >= 0.01 ? 'legendary' : 'common'
+                };
+            });
+
+            updateHistoryTable(history);
         }
 
-        function renderMarket(list) {
-            const container = document.getElementById('market');
-            container.innerHTML = '';
-            if(list.length === 0) {
-                container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center;">No characters found.</h3>';
+        // ✅ ฟังก์ชันใหม่: Auto Refresh ทุก 3 วินาที (เพื่อให้คนอื่นเห็นว่าของหมดไวๆ)
+        function startAutoRefresh() {
+            setInterval(async () => {
+                await loadMarketData();
+                // รีเฟรชหน้าจอเงียบๆ (ไม่ต้องเปลี่ยนหมวดหมู่)
+                filterItems(currentCategory, null);
+            }, 3000); // 3000 ms = 3 วินาที
+        }
+
+        window.filterItems = (category, btn) => {
+            currentCategory = category;
+
+            if (btn) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            const grid = document.getElementById('marketGrid');
+            grid.innerHTML = "";
+
+            let filtered = [];
+            if (category === 'All') filtered = marketItems;
+            else if (category === 'MyItems') filtered = marketItems.filter(i => i.owner && i.owner.toLowerCase() === userAddress.toLowerCase());
+            else filtered = marketItems.filter(i => i.role === category);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<h3 style="grid-column:1/-1; text-align:center; color:#777;">No items found.</h3>`;
                 return;
             }
 
-            list.forEach(char => {
-                const isMine = char.owner && char.owner.toLowerCase() === userAddress.toLowerCase();
-                const isSold = char.owner !== null;
+            filtered.forEach(item => {
+                const isMine = item.owner && item.owner.toLowerCase() === userAddress.toLowerCase();
                 
-                let btnHtml = `<button class="buy-btn" onclick="window.buyItem('${char.id}', '${char.price}')">Buy Now</button>`;
-                if (isMine) btnHtml = `<button class="buy-btn owned">✅ Owned</button>`;
-                else if (isSold) btnHtml = `<button class="buy-btn sold">❌ Sold Out</button>`;
+                let btnHtml = `<button class="btn-action btn-buy" onclick="buyCharacter('${item.file}')">Buy Now</button>`;
+                if (isMine) btnHtml = `<button class="btn-action btn-owned">✅ Owned</button>`;
+                else if (item.isSold) btnHtml = `<button class="btn-action btn-sold">❌ Sold Out</button>`;
 
                 const card = document.createElement('div');
-                card.className = `card tier-${char.tier}`;
+                card.className = `card ${item.tier}`;
                 card.innerHTML = `
-                    <div class="img-container">
-                        <div class="type-badge">${char.category}</div>
-                        <div class="price-badge">Ξ ${char.price}</div>
-                        <img src="${char.img}" onerror="this.src='https://via.placeholder.com/250?text=Error'">
+                    <div class="card-img-box">
+                        <div class="badge-role">${item.role}</div>
+                        <div class="badge-price">Ξ ${item.price}</div>
+                        <img src="image/${item.role}/${item.file}" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
                     </div>
-                    <div class="card-content">
-                        <h3>${char.name}</h3>
+                    <div class="card-body">
+                        <h3>${item.name}</h3>
                         ${btnHtml}
                     </div>
                 `;
-                container.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
-        window.buyItem = async (id, price) => {
+        window.buyCharacter = async (fileName) => {
             if (!contract) return;
-            updateStatus(`Buying...`);
-            try {
-                const tx = await contract.buyCharacter(id, { value: ethers.parseEther(price.toString()) });
-                updateStatus("Transaction sent...");
-                await tx.wait();
-                updateStatus("Success!");
-                
-                // Optimistic Update
-                const char = allCharacters.find(c => c.id === id);
-                char.owner = userAddress;
-                // Click active button to refresh view
-                document.querySelector('.cat-btn.active').click(); 
-            } catch (err) {
-                console.error(err);
-                updateStatus(`Error: ${err.reason || "Transaction failed"}`);
-            }
-        };
 
-        function listenForEvents() {
-            contract.on("BuyCharacter", (from, name, price, time) => {
-                updateStatus(`⚡ ${name} sold!`);
-                syncOwnership().then(() => {
-                    document.querySelector('.cat-btn.active').click();
-                    addHistoryRow(from, name, ethers.formatEther(price), time);
-                });
+            try {
+                updateStatus(`⏳ Checking availability...`);
+
+                const isSold = await contract.isCharacterSold(fileName);
+                if (isSold) {
+                    alert("⚠️ This character was just sold!");
+                    await refreshData();
+                    return;
+                }
+
+                const priceWei = await contract.getPrice(fileName);
+                updateStatus(`Please confirm transaction...`);
+
+                const tx = await contract.buyCharacter(fileName, { value: priceWei });
+                updateStatus("⏳ Waiting for confirmation...");
+                
+                await tx.wait(); 
+
+                updateStatus("🎉 Purchase Successful!");
+                await refreshData(); 
+
+            } catch (err) {
+                console.error("Buy Error:", err);
+                let msg = err.reason || (err.data && err.data.message) || "Transaction Failed";
+                if(msg.includes("insufficient funds")) msg = "Not enough ETH!";
+                
+                updateStatus(`❌ Error: ${msg}`);
+                alert(msg);
+            }
+        }
+
+        function listenToEvents() {
+            contract.on("BuyCharacter", async (from, name, price, time) => { 
+                console.log(`Event: ${name} bought by ${from}`);
+                updateStatus(`⚡ Update: Someone purchased ${name}`);
+                await refreshData();
             });
         }
 
-        async function loadHistory() {
-            try {
-                const history = await contract.getPurchaseHistory();
-                const tbody = document.querySelector("#historyTable tbody");
-                tbody.innerHTML = '';
-                [...history].reverse().forEach(tx => {
-                    addHistoryRow(tx.owner, tx.characterName, ethers.formatEther(tx.price), tx.timestamp);
-                });
-            } catch(e) { console.log("History error", e); }
+        async function refreshData() {
+            await loadMarketData();
+            filterItems(currentCategory, null);
         }
 
-        function addHistoryRow(owner, name, price, timestamp) {
+        function updateHistoryTable(historyData) {
             const tbody = document.querySelector("#historyTable tbody");
-            const row = tbody.insertRow(0);
-            row.insertCell(0).innerText = new Date(Number(timestamp)*1000).toLocaleTimeString();
-            row.insertCell(1).innerText = name.replace(/\.(jpeg|jpg|png)$/i, '');
-            row.insertCell(2).innerText = price;
-            row.insertCell(3).innerText = `${owner.substring(0,6)}...${owner.slice(-4)}`;
+            tbody.innerHTML = "";
+            [...historyData].reverse().forEach(tx => {
+                const row = tbody.insertRow();
+                const date = new Date(Number(tx.timestamp) * 1000);
+                const isMine = tx.owner.toLowerCase() === userAddress.toLowerCase();
+                
+                row.innerHTML = `
+                    <td>${date.toLocaleTimeString()}</td>
+                    <td>${tx.characterName.replace(/\..+$/, '')}</td>
+                    <td>${ethers.formatEther(tx.price)}</td>
+                    <td class="${isMine ? 'my-tx' : ''}">
+                        ${isMine ? '(YOU) ' : ''}${tx.owner.slice(0,6)}...${tx.owner.slice(-4)}
+                    </td>
+                `;
+            });
         }
 
-        function updateStatus(msg) { document.getElementById('status').innerText = msg; }
+        function updateStatus(msg) {
+            const el = document.getElementById("status");
+            if(el) el.innerText = msg;
+        }
 
         init();
     </script>
